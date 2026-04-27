@@ -36,7 +36,7 @@ El archivo Jenkinsfile define las siguientes etapas críticas:
 5. Security Scan: Escaneo de vulnerabilidades críticas con Trivy.
 6. Deploy: Despliegue automatizado en el puerto 80 local.
 
-![alt text](image-2.png)
+![alt text](image-5.png)
 
 ---
 
@@ -63,7 +63,7 @@ Una vez superadas las validaciones, la aplicación se despliega automáticamente
 ### Limpieza de Infraestructura
 Se utiliza el bloque post { always { cleanWs() } } para asegurar que el espacio de trabajo se mantenga limpio y no sature el almacenamiento del servidor.
 
-> **AQUÍ VA ESTA FOTO: Captura de tu navegador en http://localhost mostrando la aplicación funcionando correctamente.**
+![alt text](image-6.png)
 
 ---
 
