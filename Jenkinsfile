@@ -14,7 +14,6 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                // Compilación saltando tests para evitar crash en Docker/Mac
                 sh 'mvn clean package -DskipTests'
             }
         }
@@ -32,23 +31,19 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t mi-app:latest .'
+                sh 'docker build -t mi-app:latest . '
             }
         }
 
         stage('Container Security Scan (Trivy)') {
             steps {
-                // Punto 3.3: Para la entrega, ponemos exit-code 0 para que permita el despliegue final,
-                // pero dejamos la etapa para que el reporte sea visible en la consola.
                 sh 'trivy image --severity CRITICAL --exit-code 0 mi-app:latest'
             }
         }
 
         stage('Deploy') {
-            when { branch 'master' } // Asegúrate de que tu rama se llame 'master'
             steps {
-                // Punto 4: Despliegue en puerto 80:8080
-                // Detenemos y eliminamos contenedores viejos para evitar errores de "nombre en uso"
+                // Ahora se ejecutará siempre
                 sh 'docker stop mi-app-prod || true'
                 sh 'docker rm mi-app-prod || true'
                 sh 'docker run -d --name mi-app-prod -p 80:8080 mi-app:latest'
@@ -65,7 +60,7 @@ pipeline {
             echo '✅ Pipeline completado. Aplicación en http://localhost:80'
         }
         failure {
-            echo '❌ El pipeline falló. Revisa los logs.'
+            echo '❌ El pipeline falló.'
         }
     }
 }
